@@ -22,6 +22,7 @@ that your migraines are more likely to occur on Mondays, or that going for a 15-
 you with taming anxiety that prevents you from performing at your best.
 
 ## Why I decided to create *MyWell*?
+
 I created *MyWell* because I believe that this tool will be helpful first and foremost to me,
 which makes me believe that it will be able to help other people as well. Like so many others,
 I am trying to better understand my body and my mind, often asking myself questions like 
@@ -31,3 +32,22 @@ I am trying to better understand my body and my mind, often asking myself questi
 While there are plenty of wellness apps out there, I haven't found the one that focuses on specific
 areas of the body and allows you to monitor sensation in these areas. I believe that capturing
 these details will lead to better insights and better wellness outcomes.
+
+## User stories
+
+- As a user, I want to log the overall state of my mental well-being so
+that it provides context to more specific sensations and feelings.
+- As a user, I want to add details about the state of my mental well-being,
+so that I can get historical insights later.
+- As a user, I want to select a body part so that I can describe sensations 
+related to that part of my body.
+- As a user, I want to describe sensations related to a body part so that
+I can get historical insights later.
+- As a user, I want to add a note related to the sensation and the body part,
+so that it can add additional context about the sensation.
+- As a user, I want to know how often I make daily entries, so that I know
+whether I find the app useful.
+- As a user, I want to know how I felt in the last week and month, so that I can
+learn about myself.
+- As a user, I want to know which body parts were logged most often in the
+last week and month, so that I can learn about myself.

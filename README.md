@@ -49,5 +49,5 @@ so that it can add additional context about the sensation.
 whether I find the app useful.
 - As a user, I want to know how I felt in the last week and month, so that I can
 learn about myself.
-- As a user, I want to know which body parts were logged most often in the
-last week and month, so that I can learn about myself.
+- As a user, I want to review the entry for a particular day, 
+so that I can remember how I felt.

@@ -1,17 +1,28 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-//creates a journal entry with a date and log of physical sensations and feelings
+//A single entry in the journal
 public class JournalEntry {
     private Date date;
     private String overallState;
-    private List<PhysicalSensation> sensations;
+    private List<Sensation> sensations;
     private List<Feeling> feelings;
+    public static final List<String> STATES = new ArrayList<>(Arrays.asList("terrible",
+            "bad", "ok", "good", "amazing"));
 
-    //two constructors - one with date, another without date both with overallState
-    public JournalEntry() {
+    //REQUIRES overallState be one of STATES
+    //EFFECTS creates a new journal entry with today's date and specified overall state
+    public JournalEntry(String overallState) {
+
+    }
+
+    //REQUIRES a valid date not greater than today's date and overallState be one of STATES
+    //EFFECTS creates a new journal entry with specified date and specified overall state
+    public JournalEntry(Date date, String overallState) {
 
     }
 
@@ -24,16 +35,17 @@ public class JournalEntry {
         return this.overallState;
     }
 
-    //EFFECTS if associated body part has a sensation already in current entry, returns false
-    //        otherwise, adds the sensation to the entry
-    public void addPhysicalSensation() {
-
+    //EFFECTS adds sensation to the list of sensations if associated body part
+    //        doesn't already have a sensation in the list, and returns true
+    //        otherwise returns false
+    public boolean addPhysicalSensation(Sensation sensation) {
+        return false;
     }
 
-    //EFFECTS if feeling is already in current entry, returns false
-    //        otherwise, adds the feeling to the entry
-    public void addFeeling() {
-
+    //EFFECTS adds feeling to the list of feelings if not already in the list, and returns true
+    //        otherwise returns false
+    public boolean addFeeling() {
+        return false;
     }
 
     //maybe have an update method?

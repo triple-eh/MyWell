@@ -41,12 +41,6 @@ public class Journal {
         return 0;
     }
 
-    //EFFECTS returns the average number of days journaling in the last X days
-    //        multiple entries in one day count as one
-    public float journalingFrequency(int days) {
-        return 0;
-    }
-
     //REQUIRES days is a positive integer
     //EFFECTS returns the number of entries for each state in JournalEntry.STATES
     //        in the period of last X days specified

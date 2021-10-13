@@ -13,8 +13,12 @@ public class JournalEntryTest {
         JournalEntry entryA = new JournalEntry("terrible");
         Assertions.assertEquals("terrible",entryA.getOverallState());
         Assertions.assertEquals(today, entryA.getDate());
+        Assertions.assertEquals(0, entryA.getFeelings().size());
+        Assertions.assertEquals(0, entryA.getSensations().size());
         JournalEntry entryB = new JournalEntry("bad");
         Assertions.assertEquals("bad",entryB.getOverallState());
+        Assertions.assertEquals(0, entryB.getFeelings().size());
+        Assertions.assertEquals(0, entryB.getSensations().size());
     }
 
     @Test
@@ -24,7 +28,7 @@ public class JournalEntryTest {
         JournalEntry entryA = new JournalEntry(date1,"good");
         Assertions.assertEquals(date1, entryA.getDate());
         JournalEntry entryB = new JournalEntry(date2,"amazing");
-        Assertions.assertEquals(date2, entryA.getDate());
+        Assertions.assertEquals(date2, entryB.getDate());
     }
 
     @Test
@@ -39,6 +43,7 @@ public class JournalEntryTest {
         Assertions.assertEquals(2,entryA.getSensations().size());
         Assertions.assertEquals(sensation1, entryA.getSensations().get(0));
         Assertions.assertEquals(sensation2, entryA.getSensations().get(1));
+        Assertions.assertFalse(entryA.addSensation(sensation1));
     }
 
     @Test
@@ -53,5 +58,6 @@ public class JournalEntryTest {
         Assertions.assertEquals(2,entryA.getFeelings().size());
         Assertions.assertEquals(feeling1, entryA.getFeelings().get(0));
         Assertions.assertEquals(feeling2, entryA.getFeelings().get(1));
+        Assertions.assertFalse(entryA.addFeeling(feeling1));
     }
 }

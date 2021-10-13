@@ -16,51 +16,85 @@ public class JournalEntry {
 
     //REQUIRES overallState be one of STATES
     //EFFECTS creates a new journal entry with today's date and specified overall state
+    //        and initializes empty sensations and feelings
     public JournalEntry(String overallState) {
-
+        this.date = LocalDate.now();
+        this.overallState = overallState;
+        sensations = new ArrayList<>();
+        feelings = new ArrayList<>();
     }
 
     //REQUIRES a valid date not greater than today's date and overallState be one of STATES
     //EFFECTS creates a new journal entry with specified date and specified overall state
+    //        and initializes empty sensations and feelings
     public JournalEntry(LocalDate date, String overallState) {
-
+        new JournalEntry(overallState);
+        this.date = date;
     }
 
     //getters
     public LocalDate getDate() {
-
         return this.date;
     }
 
     public String getOverallState() {
-
         return this.overallState;
     }
 
     public List<Sensation> getSensations() {
-
-        return new ArrayList<>();
-
+        return this.sensations;
     }
 
     public List<Feeling> getFeelings() {
-
-        return new ArrayList<>();
-
+        return this.feelings;
     }
 
     //EFFECTS adds sensation to the list of sensations if associated body part
     //        doesn't already have a sensation in the list, and returns true
     //        otherwise returns false
     public boolean addSensation(Sensation sensation) {
+        if (!sensationWithBodyPartAlreadyPresent(sensation.getBodyPart())) {
+            sensations.add(sensation);
+            return true;
+        }
         return false;
+    }
+
+    //EFFECTS returns true if associated body part already have a sensation in the list
+    private boolean sensationWithBodyPartAlreadyPresent(String bodyPart) {
+        boolean sensationWithBodyPartAlreadyPresent = false;
+        if (this.sensations.size() != 0) {
+            for (Sensation s : sensations) {
+                if (s.getBodyPart().equals(bodyPart)) {
+                    sensationWithBodyPartAlreadyPresent = true;
+                    break;
+                }
+            }
+        }
+        return sensationWithBodyPartAlreadyPresent;
     }
 
     //EFFECTS adds feeling to the list of feelings if not already in the list, and returns true
     //        otherwise returns false
     public boolean addFeeling(Feeling feeling) {
+        if (!feelingAlreadyPresent(feeling.getFeelingName())) {
+            feelings.add(feeling);
+            return true;
+        }
         return false;
     }
 
-    //maybe have an update method?
+    private boolean feelingAlreadyPresent(String feelingName) {
+        boolean feelingAlreadyPresent = false;
+        if (this.feelings.size() != 0) {
+            for (Feeling f : feelings) {
+                if (f.getFeelingName().equals(feelingName)) {
+                    feelingAlreadyPresent = true;
+                    break;
+                }
+            }
+        }
+        return feelingAlreadyPresent;
+    }
+
 }

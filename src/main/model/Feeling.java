@@ -6,11 +6,11 @@ public class Feeling extends Observation {
 
     //EFFECTS creates a new feeling with a given name
     public Feeling(String feelingName) {
-
+        this.feelingName = feelingName;
     }
 
     //getters
-    public String getFeeling() {
+    public String getFeelingName() {
         return this.feelingName;
     }
 

@@ -16,8 +16,8 @@ public class FeelingTest {
 
     @Test
     public void feelingTest() {
-        Assertions.assertEquals("lonely", f1.getFeeling());
-        Assertions.assertEquals("sad", f2.getFeeling());
+        Assertions.assertEquals("lonely", f1.getFeelingName());
+        Assertions.assertEquals("sad", f2.getFeelingName());
     }
 
     @Test

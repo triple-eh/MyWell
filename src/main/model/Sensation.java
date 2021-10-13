@@ -25,10 +25,10 @@ public class Sensation extends Observation {
         return this.bodyPart;
     }
 
-    //REQUIRES Sensation type has to be one of: pleasant, unpleasant, neutral
+    //REQUIRES sensationType has to be one of: pleasant, unpleasant, neutral
     //MODIFIES this
     //EFFECTS adds a type of sensation
-    public void addSensationType() {}
+    public void setSensationType(String sensationType) {}
 
     public String getSensationType() {
         return this.sensationType;

@@ -1,7 +1,7 @@
 package model;
 
 //A feeling experienced at the moment of the journal entry
-public class Feeling {
+public class Feeling extends Observation {
     private String feelingName;
 
     //EFFECTS creates a new feeling with a given name

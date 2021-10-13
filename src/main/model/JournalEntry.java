@@ -14,22 +14,21 @@ public class JournalEntry {
     public static final List<String> STATES = new ArrayList<>(Arrays.asList("terrible",
             "bad", "ok", "good", "amazing"));
 
-    //REQUIRES overallState be one of STATES
-    //EFFECTS creates a new journal entry with today's date and specified overall state
+    //REQUIRES a valid date not greater than today's date and overallState be one of STATES
+    //EFFECTS creates a new journal entry with specified date and specified overall state
     //        and initializes empty sensations and feelings
-    public JournalEntry(String overallState) {
-        this.date = LocalDate.now();
+    public JournalEntry(LocalDate date, String overallState) {
+        this.date = date;
         this.overallState = overallState;
         sensations = new ArrayList<>();
         feelings = new ArrayList<>();
     }
 
-    //REQUIRES a valid date not greater than today's date and overallState be one of STATES
-    //EFFECTS creates a new journal entry with specified date and specified overall state
+    //REQUIRES overallState be one of STATES
+    //EFFECTS creates a new journal entry with today's date and specified overall state
     //        and initializes empty sensations and feelings
-    public JournalEntry(LocalDate date, String overallState) {
-        new JournalEntry(overallState);
-        this.date = date;
+    public JournalEntry(String overallState) {
+        new JournalEntry(LocalDate.now(),overallState);
     }
 
     //getters
@@ -39,6 +38,11 @@ public class JournalEntry {
 
     public String getOverallState() {
         return this.overallState;
+    }
+
+    //setter
+    private void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public List<Sensation> getSensations() {

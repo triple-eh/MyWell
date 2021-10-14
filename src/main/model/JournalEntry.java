@@ -20,15 +20,15 @@ public class JournalEntry {
     public JournalEntry(LocalDate date, String overallState) {
         this.date = date;
         this.overallState = overallState;
-        sensations = new ArrayList<>();
-        feelings = new ArrayList<>();
+        this.sensations = new ArrayList<>();
+        this.feelings = new ArrayList<>();
     }
 
     //REQUIRES overallState be one of STATES
     //EFFECTS creates a new journal entry with today's date and specified overall state
     //        and initializes empty sensations and feelings
     public JournalEntry(String overallState) {
-        new JournalEntry(LocalDate.now(),overallState);
+        this(LocalDate.now(),overallState);
     }
 
     //getters
@@ -38,11 +38,6 @@ public class JournalEntry {
 
     public String getOverallState() {
         return this.overallState;
-    }
-
-    //setter
-    private void setDate(LocalDate date) {
-        this.date = date;
     }
 
     public List<Sensation> getSensations() {

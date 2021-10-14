@@ -14,11 +14,6 @@ public class Journal {
         this.entries = new ArrayList<>();
     }
 
-    //getter
-    public List<JournalEntry> getEntries() {
-        return this.entries;
-    }
-
     //EFFECTS returns the number of entries in current journal
     public int size() {
         return entries.size();

@@ -48,6 +48,7 @@ class JournalTest {
 
     @Test
     public void countRecentEntriesTest() {
+        Assertions.assertEquals(0, j1.countRecentEntries(7));
         for (int i = 0; i < entries.size(); i++) {
             j1.addJournalEntry(entries.get(i));
         }
@@ -58,6 +59,12 @@ class JournalTest {
 
     @Test
     public void countEntriesByStateTest() {
+        HashMap<String, Integer> countEntriesByState7 = j1.countEntriesForAllStates(7);
+        Assertions.assertEquals(0,countEntriesByState7.get("terrible"));
+        Assertions.assertEquals(0,countEntriesByState7.get("bad"));
+        Assertions.assertEquals(0,countEntriesByState7.get("ok"));
+        Assertions.assertEquals(0,countEntriesByState7.get("good"));
+        Assertions.assertEquals(0,countEntriesByState7.get("amazing"));
         for (int i = 0; i < entries.size(); i++) {
             j1.addJournalEntry(entries.get(i));
         }
@@ -77,12 +84,11 @@ class JournalTest {
 
     @Test
     public void getEntriesByDateTest() {
+        LocalDate fiveDaysAgo = LocalDate.now().minusDays(5);
+        Assertions.assertEquals(0,j1.getEntriesByDate(fiveDaysAgo).size());
         for (int i = 0; i < entries.size(); i++) {
             j1.addJournalEntry(entries.get(i));
         }
-        LocalDate fiveDaysAgo = LocalDate.now().minusDays(5);
-        LocalDate Oct082021 = LocalDate.of(2021,9,8);
-        LocalDate Oct072021 = LocalDate.of(2021,9,7);
         List<JournalEntry> entriesTwoDaysAgo = j1.getEntriesByDate(twoDaysAgo);
         Assertions.assertTrue(entriesTwoDaysAgo.contains(entry1));
         Assertions.assertTrue(entriesTwoDaysAgo.contains(entry2));

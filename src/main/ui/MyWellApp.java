@@ -14,17 +14,17 @@ public class MyWellApp {
     private Scanner input;
     private String menu;
 
-    //EFFECTS starts the journaling interface
+    //EFFECTS starts the journaling interface at the main menu
     public MyWellApp() {
         this.menu = "main";
         journaling();
     }
 
-
-    //EFFECTS processes initial user input
+    //MODIFIES this
+    //EFFECTS processes user input
     public void journaling() {
         boolean keepGoing = true;
-        String command = null;
+        String command;
 
         journal = new Journal();
         input = new Scanner(System.in);
@@ -75,41 +75,52 @@ public class MyWellApp {
         }
     }
 
+    //EFFECTS routes menu input to the right handler
     private void processInput(String command) {
         switch (this.menu) {
             case "main":
-                switch (command) {
-                    case "1":
-                        this.menu = "addNewEntry";
-                        break;
-                    case "2":
-                        this.menu = "reviewEntries";
-                        break;
-                    default:
-                        break;
-                }
+                handleMain(command);
                 break;
             case "addNewEntry":
-                String state = "";
-                switch (command) {
-                    case "0": state = "amazing";
-                    break;
-                    case "1": state = "good";
-                    break;
-                    case "2": state = "ok";
-                    break;
-                    case "3": state = "bad";
-                    break;
-                    case "4": state = "terrible";
-                    break;
-                }
-                JournalEntry entry = new JournalEntry(state);
-                this.menu = "addSensation";
+                handleAddNewEntry(command);
                 break;
             default:
                 break;
         }
 
+    }
+
+    //EFFECTS processes input for main menu
+    private void handleMain(String command) {
+        switch (command) {
+            case "1":
+                this.menu = "addNewEntry";
+                break;
+            case "2":
+                this.menu = "reviewEntries";
+                break;
+            default:
+                break;
+        }
+    }
+
+    //EFFECTS processes input for the addNewEntry menu
+    private void handleAddNewEntry(String command) {
+        String state = "";
+        switch (command) {
+            case "0": state = "amazing";
+                break;
+            case "1": state = "good";
+                break;
+            case "2": state = "ok";
+                break;
+            case "3": state = "bad";
+                break;
+            case "4": state = "terrible";
+                break;
+        }
+        JournalEntry entry = new JournalEntry(state);
+        this.menu = "addSensation";
     }
 
 }

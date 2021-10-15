@@ -16,6 +16,7 @@ public class MyWellApp {
     private Scanner input;
     private JournalEntry entry;
     private Sensation currentSensation;
+    private Feeling currentFeeling;
     private String menu;
 
     //EFFECTS starts the journaling interface at the main menu
@@ -56,6 +57,7 @@ public class MyWellApp {
     }
 
     //EFFECTS routes execution of prompts for current menu selection
+    @SuppressWarnings("methodlength")
     private void displayMenu() {
         switch (this.menu) {
             case "main":
@@ -73,7 +75,7 @@ public class MyWellApp {
                 System.out.println("\t4 -> terrible");
                 break;
             case "addSensation":
-                System.out.println("\nAre you experiencing any physical sensation in the moment?");
+                System.out.println(addSensationPrompt());
                 System.out.println("\ty - yes");
                 System.out.println("\tn - no");
                 break;
@@ -91,9 +93,64 @@ public class MyWellApp {
                 System.out.println("\nHow strong is this sensation?");
                 System.out.println("\tEnter a value from 1 to 5, where 1 is Very Mild to 5 Very Strong");
                 break;
+            case "addSensationNote":
+                System.out.println("\nPlease, leave a note associated with this sensation.");
+                System.out.println("\tYou can leave it blank by pressing enter");
+                break;
+            case "addFeeling":
+                System.out.println(addFeelingPrompt());
+                break;
+            case "addFeelingName":
+                System.out.println("\nPlease, enter the feeling you're experiencing.");
+                break;
+            case "addFeelingIntensity":
+                System.out.println("\nOn a scale from 1 to 5, how strong is your feeling?");
+                break;
+            case "addFeelingNote":
+                System.out.println("\nPlease, leave a note associated with this feeling.");
+                System.out.println("\tYou can leave it blank by pressing enter");
+                break;
+            case "finalize":
+                System.out.println("\nYou have successfully created an entry");
+                break;
             default:
                 break;
         }
+    }
+
+    private String addSensationPrompt() {
+        String prompt = "Are you experiencing any physical sensation in the moment?";
+        if (entry.getSensations().size() > 0) {
+            prompt = "Are you experiencing any other physical sensation in the moment?";
+        }
+        return prompt;
+    }
+
+    private String addFeelingPrompt() {
+        String prompt = "Would you like to make an entry about how you feel?";
+        if (entry.getSensations().size() > 0) {
+            prompt = "Would you like to make another entry about how you feel?";
+        }
+        return prompt;
+    }
+
+    private void handleAddFeelingIntensity(String command) {
+        int intensity = Integer.parseInt(command);
+        this.currentFeeling.setIntensity(intensity);
+        this.menu = "addFeelingNote";
+    }
+
+    private void handleAddFeelingNote(String command) {
+        this.currentFeeling.setNote(command);
+        this.menu = "finalize";
+    }
+
+    private void handleFinalize(String command) {
+
+    }
+
+    private void handleViewEntries(String command) {
+
     }
 
     //MODIFIES this
@@ -104,6 +161,24 @@ public class MyWellApp {
         } else {
             this.menu = "addFeeling";
         }
+    }
+
+    //MODIFIES this
+    //EFFECTS processes input for addFeeling menu
+    private void handleAddFeeling(String command) {
+        if (command.equals("y")) {
+            this.menu = "addFeelingName";
+        } else {
+            this.menu = "finalize";
+        }
+    }
+
+    //MODIFIES this
+    //EFFECTS processes input for addFeelingName menu
+    private void handleAddFeelingName(String feeling) {
+        this.currentFeeling = new Feeling(feeling);
+        this.entry.addFeeling(currentFeeling);
+        this.menu = "addFeelingIntensity";
     }
 
     //MODIFIES this
@@ -142,9 +217,11 @@ public class MyWellApp {
 
     private void handleAddSensationNote(String command) {
         this.currentSensation.setNote(command);
+        this.menu = "addSensation";
     }
 
     //EFFECTS routes menu input to the right handler
+    @SuppressWarnings("methodlength")
     private void processInput(String command) {
         switch (this.menu) {
             case "main":
@@ -167,6 +244,24 @@ public class MyWellApp {
                 break;
             case "addSensationNote":
                 handleAddSensationNote(command);
+                break;
+            case "addFeeling":
+                handleAddFeeling(command);
+                break;
+            case "addFeelingName":
+                handleAddFeelingName(command);
+                break;
+            case "addFeelingIntensity":
+                handleAddFeelingIntensity(command);
+                break;
+            case "addFeelingNote":
+                handleAddFeelingNote(command);
+                break;
+            case "finalize":
+                handleFinalize(command);
+                break;
+            case "viewEntries":
+                handleViewEntries(command);
                 break;
             default:
                 break;

@@ -9,6 +9,11 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class Journal {
     private List<JournalEntry> entries;
 
+    //getter
+    public List<JournalEntry> getEntries() {
+        return this.entries;
+    }
+
     //EFFECTS initializes a new journal with no entries
     public Journal() {
         this.entries = new ArrayList<>();

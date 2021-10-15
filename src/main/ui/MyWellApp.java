@@ -5,6 +5,7 @@ import model.Journal;
 import model.JournalEntry;
 import model.Sensation;
 
+import java.util.HashMap;
 import java.util.Scanner;
 //credits to TellerApp from
 // https://github.students.cs.ubc.ca/CPSC210/TellerApp/blob/master/src/main/ca/ubc/cpsc210/bank/ui/TellerApp.java
@@ -51,12 +52,14 @@ public class MyWellApp {
         System.out.println("\nGoodbye!");
     }
 
+    //This remains to be completed
     //EFFECTS returns true if command is acceptable for the given menu
     private boolean acceptableInput() {
         return true;
     }
 
-    //EFFECTS routes execution of prompts for current menu selection
+    //MODIFIES this
+    //EFFECTS displays menu options for each menu
     @SuppressWarnings("methodlength")
     private void displayMenu() {
         switch (this.menu) {
@@ -99,6 +102,8 @@ public class MyWellApp {
                 break;
             case "addFeeling":
                 System.out.println(addFeelingPrompt());
+                System.out.println("\ty - yes");
+                System.out.println("\tn - no");
                 break;
             case "addFeelingName":
                 System.out.println("\nPlease, enter the feeling you're experiencing.");
@@ -112,115 +117,22 @@ public class MyWellApp {
                 break;
             case "finalize":
                 System.out.println("\nYou have successfully created an entry");
+                printEntry(this.entry);
+                System.out.println("\nWhat would you like to do?");
+                System.out.println("\tm -> go to main menu");
+                System.out.println("\tq -> quit the app");
                 break;
+            case "viewEntries":
+                viewSummary();
+                System.out.println("\nWould you like to read all entries?");
+                System.out.println("\ty - yes");
+                System.out.println("\tn - no");
             default:
                 break;
         }
     }
 
-    private String addSensationPrompt() {
-        String prompt = "Are you experiencing any physical sensation in the moment?";
-        if (entry.getSensations().size() > 0) {
-            prompt = "Are you experiencing any other physical sensation in the moment?";
-        }
-        return prompt;
-    }
-
-    private String addFeelingPrompt() {
-        String prompt = "Would you like to make an entry about how you feel?";
-        if (entry.getSensations().size() > 0) {
-            prompt = "Would you like to make another entry about how you feel?";
-        }
-        return prompt;
-    }
-
-    private void handleAddFeelingIntensity(String command) {
-        int intensity = Integer.parseInt(command);
-        this.currentFeeling.setIntensity(intensity);
-        this.menu = "addFeelingNote";
-    }
-
-    private void handleAddFeelingNote(String command) {
-        this.currentFeeling.setNote(command);
-        this.menu = "finalize";
-    }
-
-    private void handleFinalize(String command) {
-
-    }
-
-    private void handleViewEntries(String command) {
-
-    }
-
-    //MODIFIES this
-    //EFFECTS processes input for addSensation menu
-    private void handleAddSensation(String command) {
-        if (command.equals("y")) {
-            this.menu = "addSensationBodyPart";
-        } else {
-            this.menu = "addFeeling";
-        }
-    }
-
-    //MODIFIES this
-    //EFFECTS processes input for addFeeling menu
-    private void handleAddFeeling(String command) {
-        if (command.equals("y")) {
-            this.menu = "addFeelingName";
-        } else {
-            this.menu = "finalize";
-        }
-    }
-
-    //MODIFIES this
-    //EFFECTS processes input for addFeelingName menu
-    private void handleAddFeelingName(String feeling) {
-        this.currentFeeling = new Feeling(feeling);
-        this.entry.addFeeling(currentFeeling);
-        this.menu = "addFeelingIntensity";
-    }
-
-    //MODIFIES this
-    //EFFECTS creates a new sensation and sets the menu to addSensationIntensity
-    private void handleAddSensationBodyPart(String bodyPart) {
-        this.currentSensation = new Sensation(bodyPart);
-        this.entry.addSensation(currentSensation);
-        System.out.println(this.entry.getSensations().get(0).getBodyPart());
-        this.menu = "addSensationType";
-    }
-
-    private void handleAddSensationType(String type) {
-        System.out.println("Your input was " + type);
-        String sensationType;
-        switch (type) {
-            case "u":
-                sensationType = "unpleasant";
-                break;
-            case "p":
-                sensationType = "pleasant";
-                break;
-            case "n":
-                sensationType = "neutral";
-                break;
-            default: sensationType = "neutral";
-        }
-        this.currentSensation.setSensationType(sensationType);
-        this.menu = "addSensationIntensity";
-    }
-
-    private void handleAddSensationIntensity(String command) {
-        int intensity = Integer.parseInt(command);
-        this.currentSensation.setIntensity(intensity);
-        this.menu = "addSensationNote";
-    }
-
-    private void handleAddSensationNote(String command) {
-        this.currentSensation.setNote(command);
-        this.menu = "addSensation";
-    }
-
-    //EFFECTS routes menu input to the right handler
+    //EFFECTS handles user input for each menu
     @SuppressWarnings("methodlength")
     private void processInput(String command) {
         switch (this.menu) {
@@ -266,18 +178,17 @@ public class MyWellApp {
             default:
                 break;
         }
-
     }
 
     //MODIFIES this
-    //EFFECTS processes input for main menu
+    //EFFECTS handles input for the main menu and changes menu for the next prompt
     private void handleMain(String command) {
         switch (command) {
             case "1":
                 this.menu = "addNewEntry";
                 break;
             case "2":
-                this.menu = "reviewEntries";
+                this.menu = "viewEntries";
                 break;
             default:
                 break;
@@ -285,7 +196,7 @@ public class MyWellApp {
     }
 
     //MODIFIES this
-    //EFFECTS processes input for the addNewEntry menu
+    //EFFECTS adds new entry and changes menu for the next prompt
     private void handleAddNewEntry(String command) {
         String state = "";
         switch (command) {
@@ -302,6 +213,189 @@ public class MyWellApp {
         }
         this.entry = new JournalEntry(state);
         this.menu = "addSensation";
+    }
+
+    //EFFECTS creates a prompt for entering sensation depending on whether or not a sensation was already entered
+    private String addSensationPrompt() {
+        String prompt = "Are you experiencing any physical sensation in the moment?";
+        if (entry.getSensations().size() > 0) {
+            prompt = "Are you experiencing any other physical sensation in the moment?";
+        }
+        return prompt;
+    }
+
+    //MODIFIES this
+    //EFFECTS handles routing for adding sensation
+    private void handleAddSensation(String command) {
+        if (command.equals("y")) {
+            this.menu = "addSensationBodyPart";
+        } else {
+            this.menu = "addFeeling";
+        }
+    }
+
+    //MODIFIES this
+    //EFFECTS creates a new sensation and changes menu for the next prompt
+    private void handleAddSensationBodyPart(String bodyPart) {
+        this.currentSensation = new Sensation(bodyPart);
+        this.entry.addSensation(currentSensation);
+        System.out.println(this.entry.getSensations().get(0).getBodyPart());
+        this.menu = "addSensationType";
+    }
+
+    //MODIFIES this
+    //EFFECTS adds type to the current sensation and changes menu for the next prompt
+    private void handleAddSensationType(String type) {
+        String sensationType;
+        switch (type) {
+            case "u":
+                sensationType = "unpleasant";
+                break;
+            case "p":
+                sensationType = "pleasant";
+                break;
+            case "n":
+                sensationType = "neutral";
+                break;
+            default: sensationType = "neutral";
+        }
+        this.currentSensation.setSensationType(sensationType);
+        this.menu = "addSensationIntensity";
+    }
+
+    //MODIFIES this
+    //EFFECTS adds intensity to current sensation and changes menu for the next prompt
+    private void handleAddSensationIntensity(String command) {
+        int intensity = Integer.parseInt(command);
+        this.currentSensation.setIntensity(intensity);
+        this.menu = "addSensationNote";
+    }
+
+    //MODIFIES this
+    //EFFECTS adds note to the current sensation and changes menu for the next prompt
+    private void handleAddSensationNote(String command) {
+        this.currentSensation.setNote(command);
+        this.menu = "addSensation";
+    }
+
+    //EFFECTS creates a prompt for entering feeling depending on whether or not a feeling was already entered
+    private String addFeelingPrompt() {
+        String prompt = "Would you like to make an entry about how you feel?";
+        if (entry.getSensations().size() > 0) {
+            prompt = "Would you like to make another entry about how you feel?";
+        }
+        return prompt;
+    }
+
+    //MODIFIES this
+    //EFFECTS handles routing for adding feeling
+    //        as the last step in journal entry, adds entry to the journal
+    private void handleAddFeeling(String command) {
+        if (command.equals("y")) {
+            this.menu = "addFeelingName";
+        } else {
+            journal.addJournalEntry(entry);
+            this.menu = "finalize";
+        }
+    }
+
+    //MODIFIES this
+    //EFFECTS adds a new feeling by name and changes menu for the next prompt
+    private void handleAddFeelingName(String feeling) {
+        this.currentFeeling = new Feeling(feeling);
+        this.entry.addFeeling(currentFeeling);
+        this.menu = "addFeelingIntensity";
+    }
+
+    //MODIFIES this
+    //EFFECTS adds intensity to the currently logged feeling and changes menu for the next prompt
+    private void handleAddFeelingIntensity(String command) {
+        int intensity = Integer.parseInt(command);
+        this.currentFeeling.setIntensity(intensity);
+        this.menu = "addFeelingNote";
+    }
+
+    //MODIFIES this
+    //EFFECTS adds note to the currently logged feeling and changes menu for the next prompt
+    private void handleAddFeelingNote(String command) {
+        this.currentFeeling.setNote(command);
+        this.menu = "addFeeling";
+    }
+
+    //MODIFIES this
+    //EFFECTS handles the user input for viewing entries and returns to main menu
+    private void handleViewEntries(String command) {
+        if (command.equals("y")) {
+            printAllEntries();
+        }
+        this.menu = "main";
+    }
+
+    //EFFECTS provides overall information about journaling for the last 30 days
+    private void viewSummary() {
+        int entriesLastMonth = journal.countRecentEntries(30);
+        System.out.println("\nYou created " + entriesLastMonth + " entries in the last 30 days");
+        printStates();
+    }
+
+    //MODIFIES this
+    //EFFECTS handles return to main menu
+    private void handleFinalize(String command) {
+        if (command.equals("m")) {
+            this.menu = "main";
+        }
+    }
+
+    //EFFECTS prints all entries in journal
+    private void printAllEntries() {
+        if (journal.size() > 0) {
+            for (JournalEntry entry : journal.getEntries()) {
+                printEntry(entry);
+            }
+        }
+    }
+
+    //EFFECTS prints the content of a journal entry
+    private void printEntry(JournalEntry entry) {
+        System.out.println("\n\n\nEntered on: " + entry.getDate());
+        System.out.println("\tYour overall state was: " + entry.getOverallState());
+        printSensations(entry);
+        printFeelings(entry);
+    }
+
+    //EFFECTS prints all sensations in an entry
+    private void printSensations(JournalEntry entry) {
+        if (entry.getSensations().size() > 0) {
+            for (Sensation sensation : entry.getSensations()) {
+                System.out.println("\nYour sensation was in: " + sensation.getBodyPart());
+                System.out.println("\tThis sensation felt: " + sensation.getSensationType());
+                System.out.println("\tThe intensity on a 5pt scale was: " + sensation.getIntensity());
+                System.out.println("\tYou left the following note: " + sensation.getNote());
+            }
+        } else {
+            System.out.println("\nYou haven't logged any sensations.");
+        }
+    }
+
+    //EFFECTS prints all feelings in an entry
+    private void printFeelings(JournalEntry entry) {
+        if (entry.getFeelings().size() > 0) {
+            for (Feeling feeling : entry.getFeelings()) {
+                System.out.println("\nYou felt: " + feeling.getFeelingName());
+                System.out.println("\tThe intensity on a 5pt scale was: " + feeling.getIntensity());
+                System.out.println("\tYou left the following note: " + feeling.getNote());
+            }
+        } else {
+            System.out.println("\nYou haven't logged any feelings.");
+        }
+    }
+
+    //EFFECTS prints information about past overall states
+    private void printStates() {
+        HashMap<String, Integer> states = journal.countEntriesForAllStates(30);
+        for (String state : states.keySet()) {
+            System.out.println("You felt " + state + " " + states.get(state) + " times.");
+        }
     }
 
 }

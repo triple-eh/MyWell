@@ -6,11 +6,11 @@ public abstract class Observation {
     protected String note;
 
     //getters
-    protected int getIntensity() {
+    public int getIntensity() {
         return this.intensity;
     }
 
-    protected String getNote() {
+    public String getNote() {
         return this.note;
     }
 

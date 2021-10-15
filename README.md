@@ -47,7 +47,7 @@ I can get historical insights later.
 so that it can add additional context about the sensation.
 - As a user, I want to know how often I make daily entries, so that I know
 whether I find the app useful.
-- As a user, I want to know how I felt in the last week and month, so that I can
+- As a user, I want to know how I felt in the last month, so that I can
 learn about myself.
-- As a user, I want to review the entry for a particular day, 
+- As a user, I want to review past entries, 
 so that I can remember how I felt.

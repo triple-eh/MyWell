@@ -38,7 +38,7 @@ class JournalTest {
 
     @Test
     public void addJournalEntryTest() {
-        Assertions.assertEquals(0,j1.size());
+        Assertions.assertEquals(0,j1.getEntries().size());
         for (int i = 0; i < entries.size(); i++) {
             j1.addJournalEntry(entries.get(i));
             Assertions.assertEquals(i+1, j1.size());

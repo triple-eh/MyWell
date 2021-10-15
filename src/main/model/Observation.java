@@ -16,12 +16,12 @@ public abstract class Observation {
 
     //setters
     //REQUIRES intensity is between 1 and 5
-    protected void setIntensity(int intensity) {
+    public void setIntensity(int intensity) {
         this.intensity = intensity;
     }
 
     //REQUIRES note is not blank
-    protected void setNote(String note) {
+    public void setNote(String note) {
         this.note = note;
     }
 

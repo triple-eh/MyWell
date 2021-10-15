@@ -1,7 +1,9 @@
 package ui;
 
+import model.Feeling;
 import model.Journal;
 import model.JournalEntry;
+import model.Sensation;
 
 import java.util.Scanner;
 //credits to TellerApp from
@@ -12,6 +14,8 @@ import java.util.Scanner;
 public class MyWellApp {
     private Journal journal;
     private Scanner input;
+    private JournalEntry entry;
+    private Sensation currentSensation;
     private String menu;
 
     //EFFECTS starts the journaling interface at the main menu
@@ -26,8 +30,8 @@ public class MyWellApp {
         boolean keepGoing = true;
         String command;
 
-        journal = new Journal();
-        input = new Scanner(System.in);
+        this.journal = new Journal();
+        this.input = new Scanner(System.in).useDelimiter("\n");
 
         while (keepGoing) {
             displayMenu();
@@ -51,6 +55,7 @@ public class MyWellApp {
         return true;
     }
 
+    //EFFECTS routes execution of prompts for current menu selection
     private void displayMenu() {
         switch (this.menu) {
             case "main":
@@ -69,10 +74,74 @@ public class MyWellApp {
                 break;
             case "addSensation":
                 System.out.println("\nAre you experiencing any physical sensation in the moment?");
+                System.out.println("\ty - yes");
+                System.out.println("\tn - no");
+                break;
+            case "addSensationBodyPart":
+                System.out.println("\tWhere in the body are you experiencing your sensation?");
+                System.out.println("\tFor example, you can say \"left arm\" or \"chest\"...");
+                break;
+            case "addSensationType":
+                System.out.println("\nHow does this sensation feel?");
+                System.out.println("\tp - pleasant");
+                System.out.println("\tu - unpleasant");
+                System.out.println("\tn - neutral");
+                break;
+            case "addSensationIntensity":
+                System.out.println("\nHow strong is this sensation?");
+                System.out.println("\tEnter a value from 1 to 5, where 1 is Very Mild to 5 Very Strong");
                 break;
             default:
                 break;
         }
+    }
+
+    //MODIFIES this
+    //EFFECTS processes input for addSensation menu
+    private void handleAddSensation(String command) {
+        if (command.equals("y")) {
+            this.menu = "addSensationBodyPart";
+        } else {
+            this.menu = "addFeeling";
+        }
+    }
+
+    //MODIFIES this
+    //EFFECTS creates a new sensation and sets the menu to addSensationIntensity
+    private void handleAddSensationBodyPart(String bodyPart) {
+        this.currentSensation = new Sensation(bodyPart);
+        this.entry.addSensation(currentSensation);
+        System.out.println(this.entry.getSensations().get(0).getBodyPart());
+        this.menu = "addSensationType";
+    }
+
+    private void handleAddSensationType(String type) {
+        System.out.println("Your input was " + type);
+        String sensationType;
+        switch (type) {
+            case "u":
+                sensationType = "unpleasant";
+                break;
+            case "p":
+                sensationType = "pleasant";
+                break;
+            case "n":
+                sensationType = "neutral";
+                break;
+            default: sensationType = "neutral";
+        }
+        this.currentSensation.setSensationType(sensationType);
+        this.menu = "addSensationIntensity";
+    }
+
+    private void handleAddSensationIntensity(String command) {
+        int intensity = Integer.parseInt(command);
+        this.currentSensation.setIntensity(intensity);
+        this.menu = "addSensationNote";
+    }
+
+    private void handleAddSensationNote(String command) {
+        this.currentSensation.setNote(command);
     }
 
     //EFFECTS routes menu input to the right handler
@@ -84,12 +153,28 @@ public class MyWellApp {
             case "addNewEntry":
                 handleAddNewEntry(command);
                 break;
+            case "addSensation":
+                handleAddSensation(command);
+                break;
+            case "addSensationBodyPart":
+                handleAddSensationBodyPart(command);
+                break;
+            case "addSensationType":
+                handleAddSensationType(command);
+                break;
+            case "addSensationIntensity":
+                handleAddSensationIntensity(command);
+                break;
+            case "addSensationNote":
+                handleAddSensationNote(command);
+                break;
             default:
                 break;
         }
 
     }
 
+    //MODIFIES this
     //EFFECTS processes input for main menu
     private void handleMain(String command) {
         switch (command) {
@@ -104,6 +189,7 @@ public class MyWellApp {
         }
     }
 
+    //MODIFIES this
     //EFFECTS processes input for the addNewEntry menu
     private void handleAddNewEntry(String command) {
         String state = "";
@@ -119,7 +205,7 @@ public class MyWellApp {
             case "4": state = "terrible";
                 break;
         }
-        JournalEntry entry = new JournalEntry(state);
+        this.entry = new JournalEntry(state);
         this.menu = "addSensation";
     }
 

@@ -51,3 +51,7 @@ whether I find the app useful.
 learn about myself.
 - As a user, I want to review past entries, 
 so that I can remember how I felt.
+- As a user, I want the journal to save all entries from my session
+before I quit, so that I can review them later.
+- As a user, I want the journal to load all my previous entries
+when I start a new session, so that I can review them.

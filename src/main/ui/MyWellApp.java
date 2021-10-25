@@ -4,7 +4,10 @@ import model.Feeling;
 import model.Journal;
 import model.JournalEntry;
 import model.Sensation;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Scanner;
 //credits to TellerApp from
@@ -19,6 +22,9 @@ public class MyWellApp {
     private Sensation currentSensation;
     private Feeling currentFeeling;
     private String menu;
+    private static final String JSON_STORE = "./data/journal.json";
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     //EFFECTS starts the journaling interface at the main menu
     public MyWellApp() {
@@ -34,6 +40,8 @@ public class MyWellApp {
 
         this.journal = new Journal();
         this.input = new Scanner(System.in).useDelimiter("\n");
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
 
         while (keepGoing) {
             displayMenu();
@@ -41,6 +49,7 @@ public class MyWellApp {
             command = command.toLowerCase();
 
             if (command.equals("q")) {
+                handleQuit();
                 keepGoing = false;
             } else if (acceptableInput()) {
                 processInput(command);
@@ -395,6 +404,17 @@ public class MyWellApp {
         HashMap<String, Integer> states = journal.countEntriesForAllStates(30);
         for (String state : states.keySet()) {
             System.out.println("You felt " + state + " " + states.get(state) + " times.");
+        }
+    }
+
+    private void handleQuit() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(journal);
+            jsonWriter.close();
+            System.out.println("Saved your journal to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
         }
     }
 

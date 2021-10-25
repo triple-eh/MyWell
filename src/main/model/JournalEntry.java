@@ -83,6 +83,7 @@ public class JournalEntry {
         return false;
     }
 
+    //EFFECTS returns true if feeling is already in the list of feelings
     private boolean feelingAlreadyPresent(String feelingName) {
         boolean feelingAlreadyPresent = false;
         if (this.feelings.size() != 0) {

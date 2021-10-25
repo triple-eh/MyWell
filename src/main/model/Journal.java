@@ -1,11 +1,16 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.time.LocalDate;
 import java.util.*;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
 //A journal with individual entries and associated functionality
+//Credit to https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+//       for providing the model for implementing Writable
 public class Journal {
     private List<JournalEntry> entries;
 
@@ -34,6 +39,13 @@ public class Journal {
     //EFFECTS returns the last added entry
     public JournalEntry getLastEntry() {
         return entries.get(entries.size() - 1);
+    }
+
+    //EFFECTS returns the entries in the journal as a JSON string
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("entries", new JSONArray(this.entries));
+        return json;
     }
 
     //REQUIRES days is a non-negative integer

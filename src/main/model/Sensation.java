@@ -48,8 +48,12 @@ public class Sensation extends Observation {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Sensation sensation = (Sensation) o;
         return bodyPart.equals(sensation.bodyPart) && Objects.equals(sensationType, sensation.sensationType)
                 && Objects.equals(intensity, sensation.intensity) && Objects.equals(note, sensation.note);

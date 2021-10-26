@@ -1,0 +1,23 @@
+{"entries": [
+    {
+        "date": "2021-10-23",
+        "sensations": [{
+            "intensity": 2,
+            "sensationType": "neutral",
+            "note": "weird tingling",
+            "bodyPart": "neck"
+        }],
+        "feelings": [],
+        "overallState": "good"
+    },
+    {
+        "date": "2021-10-24",
+        "sensations": [],
+        "feelings": [{
+            "intensity": 4,
+            "note": "feeling super tired",
+            "feelingName": "unhappy"
+        }],
+        "overallState": "bad"
+    }
+]}

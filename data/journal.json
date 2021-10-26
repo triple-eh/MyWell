@@ -1,15 +1,32 @@
-{"entries": [{
-    "date": "2021-10-24",
-    "sensations": [{
-        "intensity": 4,
-        "sensationType": "neutral",
-        "note": "bo",
-        "bodyPart": "chest"
-    }],
-    "feelings": [{
-        "intensity": 3,
-        "note": "ok",
-        "feelingName": "happy"
-    }],
-    "overallState": "ok"
-}]}
+{"entries": [
+    {
+        "date": "2021-10-25",
+        "sensations": [{
+            "intensity": 3,
+            "sensationType": "unpleasant",
+            "note": "sore from exercise",
+            "bodyPart": "left arm"
+        }],
+        "feelings": [{
+            "intensity": 4,
+            "note": "midterms",
+            "feelingName": "anxious"
+        }],
+        "overallState": "amazing"
+    },
+    {
+        "date": "2021-10-25",
+        "sensations": [{
+            "intensity": 2,
+            "sensationType": "neutral",
+            "note": "tightness",
+            "bodyPart": "chest"
+        }],
+        "feelings": [{
+            "intensity": 4,
+            "note": "almost done with the project",
+            "feelingName": "happy"
+        }],
+        "overallState": "ok"
+    }
+]}

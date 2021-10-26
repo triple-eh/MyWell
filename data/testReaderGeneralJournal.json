@@ -1,0 +1,23 @@
+{"entries": [
+  {
+    "date": "2021-10-24",
+    "sensations": [{
+      "intensity": 3,
+      "sensationType": "unpleasant",
+      "note": "sore from exercise",
+      "bodyPart": "left arm"
+    }],
+    "feelings": [],
+    "overallState": "amazing"
+  },
+  {
+    "date": "2021-10-25",
+    "sensations": [],
+    "feelings": [{
+      "intensity": 4,
+      "note": "almost done with the project",
+      "feelingName": "happy"
+    }],
+    "overallState": "ok"
+  }
+]}

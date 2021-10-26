@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 //A physical sensation experienced in a particular body part
 //at the time of the journal entry
@@ -45,5 +46,17 @@ public class Sensation extends Observation {
         return this.sensationType;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Sensation sensation = (Sensation) o;
+        return bodyPart.equals(sensation.bodyPart) && Objects.equals(sensationType, sensation.sensationType)
+                && Objects.equals(intensity, sensation.intensity) && Objects.equals(note, sensation.note);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(bodyPart, sensationType, intensity, note);
+    }
 }

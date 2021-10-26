@@ -8,6 +8,7 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 //credits to TellerApp from
@@ -25,6 +26,7 @@ public class MyWellApp {
     private static final String JSON_STORE = "./data/journal.json";
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
+    private boolean journalLoaded;
 
     //EFFECTS starts the journaling interface at the main menu
     public MyWellApp() {
@@ -42,6 +44,8 @@ public class MyWellApp {
         this.input = new Scanner(System.in).useDelimiter("\n");
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
+        journalLoaded = loadJournal();
+        printWelcome();
 
         while (keepGoing) {
             displayMenu();
@@ -49,7 +53,7 @@ public class MyWellApp {
             command = command.toLowerCase();
 
             if (command.equals("q")) {
-                handleQuit();
+                saveSession();
                 keepGoing = false;
             } else if (acceptableInput()) {
                 processInput(command);
@@ -59,6 +63,14 @@ public class MyWellApp {
         }
 
         System.out.println("\nGoodbye!");
+    }
+
+    //EFFECTS prints out a welcome message
+    private void printWelcome() {
+        System.out.println("\nWelcome to MyWell!");
+        if (journalLoaded) {
+            System.out.println("\nYour previous entries were loaded from storage.");
+        }
     }
 
     //This remains to be completed
@@ -73,9 +85,11 @@ public class MyWellApp {
     private void displayMenu() {
         switch (this.menu) {
             case "main":
-                System.out.println("\nWelcome to MyWell! What would you like to do?");
+                System.out.println("\nWhat would you like to do?");
                 System.out.println("\t1 -> Make a journal entry");
                 System.out.println("\t2 -> Review past entries");
+                System.out.println("\t3 -> Save progress");
+                System.out.println("\tq -> Quit session");
                 break;
             case "addNewEntry":
                 System.out.println("\nLet's make a new journal entry.");
@@ -189,6 +203,16 @@ public class MyWellApp {
         }
     }
 
+    private boolean loadJournal() {
+        try {
+            this.journal = jsonReader.read();
+            return true;
+        } catch (IOException e) {
+            System.out.println("Exception");
+            return false;
+        }
+    }
+
     //MODIFIES this
     //EFFECTS handles input for the main menu and changes menu for the next prompt
     private void handleMain(String command) {
@@ -198,6 +222,9 @@ public class MyWellApp {
                 break;
             case "2":
                 this.menu = "viewEntries";
+                break;
+            case "3":
+                saveSession();
                 break;
             default:
                 break;
@@ -407,7 +434,7 @@ public class MyWellApp {
         }
     }
 
-    private void handleQuit() {
+    private void saveSession() {
         try {
             jsonWriter.open();
             jsonWriter.write(journal);

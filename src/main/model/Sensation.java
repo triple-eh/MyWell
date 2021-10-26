@@ -13,6 +13,15 @@ public class Sensation extends Observation {
             "right shoulder", "left shoulder", "right arm", "left arm", "upper back", "lower back", "right hip",
             "left hip", "right leg", "left leg", "right foot", "left foot"));
 
+//    //REQUIRES bodyPart has to be one of available BODYPARTS,
+//    //         sensationType one of: pleasant, unpleasant, neutral; intensity between 1 and 5,
+//    //EFFECTS creates a new physical sensation with a body part, sensation type, intensity, and note
+//    public Sensation(String bodyPart, String sensationType, int intensity, String note) {
+//        this.bodyPart = bodyPart;
+//        this.sensationType = sensationType;
+//        this.intensity = intensity;
+//        this.note = note;
+//    }
 
     //REQUIRES bodyPart has to be one of available BODYPARTS
     //EFFECTS creates a new physical sensation with a body part and no sensation

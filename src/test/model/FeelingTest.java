@@ -7,11 +7,13 @@ import org.junit.jupiter.api.Test;
 public class FeelingTest {
     Feeling f1;
     Feeling f2;
+    Feeling f3;
 
     @BeforeEach
     public void setup() {
         f1 = new Feeling("lonely");
         f2 = new Feeling("sad");
+        f3 = new Feeling("lonely");
     }
 
     @Test
@@ -36,5 +38,19 @@ public class FeelingTest {
         Assertions.assertEquals(note1,f1.getNote());
         f2.setNote(note2);
         Assertions.assertEquals(note2,f2.getNote());
+    }
+
+    @Test
+    public void equalsTest() {
+        Assertions.assertFalse(f1.equals(null));
+        Assertions.assertFalse(f1.equals(new Sensation("lonely")));
+        Assertions.assertTrue(f1.equals(f3));
+        Assertions.assertFalse(f1.equals(f2));
+    }
+
+    @Test
+    public void hashCodeTest() {
+        Assertions.assertNotEquals(f1.hashCode(),f2.hashCode());
+        Assertions.assertEquals(f1.hashCode(),f3.hashCode());
     }
 }

@@ -46,6 +46,18 @@ public class FeelingTest {
         Assertions.assertFalse(f1.equals(new Sensation("lonely")));
         Assertions.assertTrue(f1.equals(f3));
         Assertions.assertFalse(f1.equals(f2));
+        f1.setNote("note");
+        Assertions.assertFalse(f1.equals(f3));
+        f3.setNote("other note");
+        Assertions.assertFalse(f1.equals(f3));
+        f3.setNote("note");
+        Assertions.assertTrue(f1.equals(f3));
+        f1.setIntensity(5);
+        Assertions.assertFalse(f1.equals(f3));
+        f3.setIntensity(4);
+        Assertions.assertFalse(f1.equals(f3));
+        f3.setIntensity(5);
+        Assertions.assertTrue(f1.equals(f3));
     }
 
     @Test

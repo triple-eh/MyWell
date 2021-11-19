@@ -65,4 +65,15 @@ public class FeelingTest {
         Assertions.assertNotEquals(f1.hashCode(),f2.hashCode());
         Assertions.assertEquals(f1.hashCode(),f3.hashCode());
     }
+
+    @Test
+    public void printTest() {
+        Feeling f = new Feeling("anxious");
+        f.setIntensity(4);
+        String printFeeling = "You felt: anxious" + "\n" + "The intensity was: 4 out of 5";
+        Assertions.assertEquals(printFeeling,f.print());
+        f.setNote("test");
+        printFeeling += "\nYou added the following note:\ntest";
+        Assertions.assertEquals(printFeeling,f.print());
+    }
 }

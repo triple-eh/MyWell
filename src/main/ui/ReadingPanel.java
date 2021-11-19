@@ -18,11 +18,21 @@ import java.util.List;
 public class ReadingPanel extends JPanel implements ActionListener {
     JButton loadDataButton;
     JPanel entriesPanel;
+    Journal journal;
 
     ReadingPanel() {
+        journal = new Journal();
         this.setLayout(new BorderLayout());
         this.add(loadingPanel(), BorderLayout.NORTH);
         //this.add(entriesPanel(), BorderLayout.CENTER);
+    }
+
+    public Journal getJournal() {
+        return this.journal;
+    }
+
+    public void setJournal(Journal j) {
+        this.journal = j;
     }
 
     private JPanel entriesPanel(Journal journal) {
@@ -52,22 +62,29 @@ public class ReadingPanel extends JPanel implements ActionListener {
 
             if (response == JFileChooser.APPROVE_OPTION) {
                 String filePath = new File(fileChooser.getSelectedFile().getAbsolutePath()).toString();
-                Journal journal = getJournalFromStorage(filePath);
-                this.entriesPanel = entriesPanel(journal);
-                this.add(entriesPanel);
-                validate();
+                this.setJournal(getJournalFromStorage(filePath));
+                renderJournal(this.journal);
             }
         }
+    }
+
+    public void renderJournal(Journal journal) {
+        if (entriesPanel != null) {
+            this.removeEntries();
+        }
+        this.entriesPanel = entriesPanel(journal);
+        this.add(entriesPanel);
+        validate();
+        repaint();
     }
 
     public JPanel renderEntry(JournalEntry e) {
         JPanel entryPanel = new JPanel();
         entryPanel.setLayout(new BoxLayout(entryPanel, BoxLayout.PAGE_AXIS));
-
-        JLabel date = new JLabel("Date: " + e.getDate().toString());
         JPanel sensationsPanel = createSensationPanel(e.getSensations());
         JPanel feelingsPanel = createFeelingPanel(e.getFeelings());
-        entryPanel.add(date);
+        entryPanel.add(new JLabel("Date: " + e.getDate().toString()));
+        entryPanel.add(new JLabel("Your overall state was: " + e.getOverallState()));
         entryPanel.add(sensationsPanel);
         entryPanel.add(Box.createVerticalStrut(10));
         entryPanel.add(feelingsPanel);
@@ -81,16 +98,13 @@ public class ReadingPanel extends JPanel implements ActionListener {
         for (Sensation s : sensations) {
             JLabel sensationLabel = new JLabel(createSensationText(s));
             sensationsPanel.add(sensationLabel);
+            sensationsPanel.add(Box.createVerticalStrut(5));
         }
         return sensationsPanel;
     }
 
     private String createSensationText(Sensation s) {
-        String bodyPart = "Noted sensation in: " + s.getBodyPart();
-        String type = "The sensation felt: " + s.getSensationType();
-        String intensity = "The intensity was: " + s.getIntensity() + " out of 5";
-        String note = "You added the following note:<br>" + s.getNote();
-        return "<html>" + bodyPart + "<br>" + type + "<br>" + intensity + "<br>" + note;
+        return "<html>" + s.print().replaceAll("[\\n]","<br>");
     }
 
     public JPanel createFeelingPanel(List<Feeling> feelings) {
@@ -99,15 +113,13 @@ public class ReadingPanel extends JPanel implements ActionListener {
         for (Feeling f : feelings) {
             JLabel feelingLabel = new JLabel(createFeelingText(f));
             feelingsPanel.add(feelingLabel);
+            feelingsPanel.add(Box.createVerticalStrut(5));
         }
         return feelingsPanel;
     }
 
     private String createFeelingText(Feeling f) {
-        String feeling = "You felt: " + f.getFeelingName();
-        String intensity = "The intensity was: " + f.getIntensity() + " out of 5";
-        String note = "You added the following note:<br>" + f.getNote();
-        return "<html>" + feeling + "<br>" + intensity + "<br>" + note;
+        return "<html>" + f.print().replaceAll("[\\n]","<br>");
     }
 
     private Journal getJournalFromStorage(String filePath) {
@@ -119,5 +131,9 @@ public class ReadingPanel extends JPanel implements ActionListener {
             System.out.println("Exception");
             return null;
         }
+    }
+
+    public void removeEntries() {
+        this.remove(entriesPanel);
     }
 }

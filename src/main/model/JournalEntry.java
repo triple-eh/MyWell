@@ -55,6 +55,11 @@ public class JournalEntry {
         return this.feelings;
     }
 
+    //setters
+    public void setOverallState(String state) {
+        this.overallState = state;
+    }
+
     //EFFECTS adds sensation to the list of sensations if associated body part
     //        doesn't already have a sensation in the list, and returns true
     //        otherwise returns false

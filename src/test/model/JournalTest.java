@@ -47,6 +47,12 @@ class JournalTest {
     }
 
     @Test
+    public void setOverallStateTest() {
+        entry1.setOverallState("excellent");
+        Assertions.assertEquals("excellent",entry1.getOverallState());
+    }
+
+    @Test
     public void countRecentEntriesTest() {
         Assertions.assertEquals(0, j1.countRecentEntries(7));
         for (int i = 0; i < entries.size(); i++) {

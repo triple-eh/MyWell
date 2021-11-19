@@ -2,7 +2,7 @@ package model;
 
 //An observation regarding an experience in the body or mind
 public abstract class Observation {
-    protected int intensity;
+    protected Integer intensity;
     protected String note;
 
     //getters
@@ -16,7 +16,7 @@ public abstract class Observation {
 
     //setters
     //REQUIRES intensity is between 1 and 5
-    public void setIntensity(int intensity) {
+    public void setIntensity(Integer intensity) {
         this.intensity = intensity;
     }
 
@@ -25,4 +25,6 @@ public abstract class Observation {
         this.note = note;
     }
 
+    //EFFECTS: prints the information about the observation
+    public abstract String print();
 }

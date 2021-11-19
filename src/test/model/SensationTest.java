@@ -80,4 +80,17 @@ public class SensationTest {
         s3.setNote("note");
         Assertions.assertEquals(s1.hashCode(), s3.hashCode());
     }
+
+    @Test
+    public void printTest() {
+        Sensation s = new Sensation("chest");
+        s.setSensationType("neutral");
+        s.setIntensity(3);
+        String printSensation = "Noted sensation in: chest" + "\n" + "The sensation felt: neutral" + "\n" +
+                "The intensity was: 3 out of 5";
+        Assertions.assertEquals(printSensation,s.print());
+        s.setNote("test");
+        printSensation += "\nYou added the following note:\ntest";
+        Assertions.assertEquals(printSensation,s.print());
+    }
 }

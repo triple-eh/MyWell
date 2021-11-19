@@ -33,4 +33,15 @@ public class Feeling extends Observation {
     public int hashCode() {
         return Objects.hash(feelingName, intensity, note);
     }
+
+    @Override
+    public String print() {
+        String noteMessage = "";
+        String feelingNameMessage = "You felt: " + feelingName;
+        String intensityMessage = "The intensity was: " + intensity + " out of 5";
+        if (note != null) {
+            noteMessage = "\nYou added the following note:\n" + note;
+        }
+        return feelingNameMessage + "\n" + intensityMessage + noteMessage;
+    }
 }

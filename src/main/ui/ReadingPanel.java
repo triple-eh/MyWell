@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+//A JPanel for reading the journal
 public class ReadingPanel extends JPanel implements ActionListener {
     JButton loadDataButton;
     JButton saveDataButton;
@@ -28,22 +29,25 @@ public class ReadingPanel extends JPanel implements ActionListener {
     ReadingPanel() {
         journal = new Journal();
         this.setLayout(new BorderLayout());
-        this.add(loadingPanel(), BorderLayout.NORTH);
+        this.add(createControlPanel(), BorderLayout.NORTH);
     }
 
-    public void setStatsPanel(StatsPanel panel) {
-        statsPanel = panel;
-    }
-
+    // getters
     public Journal getJournal() {
         return this.journal;
+    }
+
+    // setters
+    public void setStatsPanel(StatsPanel panel) {
+        statsPanel = panel;
     }
 
     public void setJournal(Journal j) {
         this.journal = j;
     }
 
-    private JPanel entriesPanel(Journal journal) {
+    // EFFECTS creates a JPanel for displaying journal entries, and returns it
+    private JPanel createEntriesPanel(Journal journal) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         for (JournalEntry entry : journal.getEntries()) {
@@ -53,7 +57,9 @@ public class ReadingPanel extends JPanel implements ActionListener {
         return panel;
     }
 
-    private JPanel loadingPanel() {
+    // MODIFIES this
+    // EFFECTS creates a JPanel for holding load and save controls, and returns it
+    private JPanel createControlPanel() {
         JPanel panel = new JPanel();
         loadDataButton = new JButton("Load journal from file");
         loadDataButton.addActionListener(this);
@@ -64,6 +70,7 @@ public class ReadingPanel extends JPanel implements ActionListener {
         return panel;
     }
 
+    // EFFECTS listen to performed actions and dispatch appropriate commands
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loadDataButton) {
@@ -74,6 +81,8 @@ public class ReadingPanel extends JPanel implements ActionListener {
         }
     }
 
+    // MODIFIES this
+    // EFFECTS loads the journal from file and renders it
     private void handleLoadJournal() {
         FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON Files", "json");
         JFileChooser fileChooser = new JFileChooser();
@@ -88,6 +97,7 @@ public class ReadingPanel extends JPanel implements ActionListener {
         }
     }
 
+    // EFFECTS saves current journal to the default location and displays confirmations
     private void handleSaveJournal() {
         if (journal.size() == 0) {
             displayInformationDialogue(0);
@@ -104,6 +114,7 @@ public class ReadingPanel extends JPanel implements ActionListener {
         }
     }
 
+    // EFFECTS displays dialogue windows to inform about the success/failure of performing save actions
     @SuppressWarnings("methodlength")
     public void displayInformationDialogue(int option) {
         int optionsIconReference = JOptionPane.INFORMATION_MESSAGE;
@@ -133,17 +144,20 @@ public class ReadingPanel extends JPanel implements ActionListener {
                 JOptionPane.DEFAULT_OPTION, optionsIconReference);
     }
 
+    // MODIFIES this, statsPanel
+    // EFFECTS renders the given journal and renders the chart on the stats panel
     public void renderJournal(Journal journal) {
         if (entriesPanel != null) {
             this.removeEntries();
         }
-        this.entriesPanel = entriesPanel(journal);
+        this.entriesPanel = createEntriesPanel(journal);
         this.add(entriesPanel);
         statsPanel.renderChart();
         validate();
         repaint();
     }
 
+    // EFFECTS creates a JPanel to render one journal entry and returns it
     public JPanel renderEntry(JournalEntry e) {
         JPanel entryPanel = new JPanel();
         entryPanel.setLayout(new BoxLayout(entryPanel, BoxLayout.PAGE_AXIS));
@@ -158,6 +172,7 @@ public class ReadingPanel extends JPanel implements ActionListener {
         return entryPanel;
     }
 
+    // EFFECTS creates a JPanel to render all sensations in a journal entry and returns it
     public JPanel createSensationPanel(List<Sensation> sensations) {
         JPanel sensationsPanel = new JPanel();
         sensationsPanel.setLayout(new BoxLayout(sensationsPanel, BoxLayout.PAGE_AXIS));
@@ -169,10 +184,12 @@ public class ReadingPanel extends JPanel implements ActionListener {
         return sensationsPanel;
     }
 
+    // EFFECTS creates a formatted string from a given sensation and returns it
     private String createSensationText(Sensation s) {
         return "<html>" + s.print().replaceAll("[\\n]","<br>");
     }
 
+    // EFFECTS creates a JPanel to render all feelings in a journal entry and returns it
     public JPanel createFeelingPanel(List<Feeling> feelings) {
         JPanel feelingsPanel = new JPanel();
         feelingsPanel.setLayout(new BoxLayout(feelingsPanel, BoxLayout.PAGE_AXIS));
@@ -184,10 +201,13 @@ public class ReadingPanel extends JPanel implements ActionListener {
         return feelingsPanel;
     }
 
+    // EFFECTS creates a formatted string from a given feeling and returns it
     private String createFeelingText(Feeling f) {
         return "<html>" + f.print().replaceAll("[\\n]","<br>");
     }
 
+    // MODIFIES this
+    // EFFECTS loads journal from a given storage location and returns it
     private Journal getJournalFromStorage(String filePath) {
         //
         try {
@@ -199,6 +219,8 @@ public class ReadingPanel extends JPanel implements ActionListener {
         }
     }
 
+    // MODIFIES this
+    // EFFECTS removes entriesPanel from this
     public void removeEntries() {
         this.remove(entriesPanel);
     }

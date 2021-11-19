@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+//A panel for creating new journal entries
 public class NewEntryPanel extends JPanel implements ActionListener {
     JPanel inputPanel;
     JPanel createEntryPanel;
@@ -50,6 +51,8 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         this.readingPanel = readingPanel;
     }
 
+    // MODIFIES: this
+    // EFFECTS creates a holding panel for new journal entry GUI logic
     private JPanel createEntryPanel() {
         createEntryPanel = new JPanel();
         createEntryPanel.setLayout(new BoxLayout(createEntryPanel, BoxLayout.PAGE_AXIS));
@@ -61,6 +64,8 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         return createEntryPanel;
     }
 
+    // MODIFIES: this
+    // EFFECTS creates panel for holding a preview of an unsubmitted journal entry
     private JPanel createPreviewPanel() {
         previewPanel = new JPanel();
         entryPanel = new JPanel();
@@ -69,6 +74,8 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         return previewPanel;
     }
 
+    // MODIFIES this
+    // EFFECTS creates a panel for holding buttons to clear or add the entry
     private JPanel createControlPanel() {
         controlPanel = new JPanel(new GridLayout(1,2));
         controlPanel.add(createButton("Clear entry",clearButton,this::handleClearEntry));
@@ -77,6 +84,8 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         return controlPanel;
     }
 
+    // MODIFIES this
+    // EFFECTS creates a panel for entering overall state information
     private JPanel createStatePanel() {
         optionsPanel = new JPanel(new GridLayout(0, 1));
         optionsPanel.setBorder(BorderFactory.createTitledBorder("Note your overall state (required)"));
@@ -85,7 +94,9 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         optionsPanel.add(createButton("Add state",createEntryButton,this::handleCreateEntry));
         return optionsPanel;
     }
-    
+
+    // MODIFIES this
+    // EFFECTS creates a panel for adding sensations
     private JPanel createSensationPanel() {
         sensationPanel = new JPanel(new GridLayout(0,1));
         sensationPanel.setBorder(BorderFactory.createTitledBorder("Note your sensation"));
@@ -101,7 +112,9 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         sensationPanel.add(createButton("Add sensation",addSensationButton,this::handleAddSensation));
         return sensationPanel;
     }
-    
+
+    // MODIFIES this
+    // EFFECTS creates a panel for adding feelings
     private JPanel createFeelingPanel() {
         feelingPanel = new JPanel(new GridLayout(0,1));
         feelingPanel.setBorder(BorderFactory.createTitledBorder("Note your feeling"));
@@ -117,12 +130,16 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         return feelingPanel;
     }
 
+    // MODIFIES this
+    // EFFECTS initializes a JComboBox with overall states and returns it
     private JComboBox createOverallStatesList() {
         String[] overallStates = {"amazing","good","ok","bad","terrible"};
         overallStatesList = new JComboBox(overallStates);
         return overallStatesList;
     }
 
+    // MODIFIES this
+    // EFFECTS initializes a JComboBox with body parts and returns it
     private JComboBox bodyPartList() {
         String[] bodyParts = {"head","face","neck", "right shoulder", "left shoulder", "right arm", "left arm","chest",
             "upper back", "middle back", "lower back", "stomach", "right hip", "left hip", "right leg", "left leg",
@@ -131,17 +148,21 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         return bodyPartsBox;
     }
 
+    // MODIFIES this
+    // EFFECTS initializes a JComboBox with sensations types and returns it
     private JComboBox sensationTypeList() {
         String[] types = {"pleasant","unpleasant","neutral"};
         sensationTypeList = new JComboBox(types);
         return sensationTypeList;
     }
 
+    // EFFECTS creates new JLabel with a given text and returns it
     private JLabel createLabel(String text) {
         JLabel label = new JLabel(text);
         return label;
     }
 
+    // EFFECTS creates a new JRadioButton with given text and associated action command and returns it;
     private JRadioButton createRadioButton(String text) {
         JRadioButton radioButton = new JRadioButton(text);
         radioButton.setMnemonic(KeyEvent.VK_P);
@@ -149,6 +170,7 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         return radioButton;
     }
 
+    // EFFECTS creates a JPanel to hold a provided ButtonGroup and returns it
     private JPanel createRadioPanelForGroup(ButtonGroup group) {
         JPanel panel = new JPanel(new GridLayout(1, 5));
         for (int i = 1; i < 6; i++) {
@@ -159,6 +181,8 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         return panel;
     }
 
+    // MODIFIES this
+    // EFFECTS creates a new button with associated action, stores it in a map, and return it
     private JButton createButton(String label, JButton button, Runnable command) {
         button.setText(label);
         button.addActionListener(this);
@@ -167,6 +191,7 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         return button;
     }
 
+    // EFFECTS listens for actions performed on components and executes appropriate actions
     @Override
     public void actionPerformed(ActionEvent e) {
         for (JButton button : commands.keySet()) {
@@ -176,11 +201,13 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         }
     }
 
+    // EFFECTS creates a new journal entry from corresponding components in this
     private void handleCreateEntry() {
         createEntryFromInput();
         createEntryButton.setText("Update overall state");
     }
 
+    // EFFECTS adds a sensation from corresponding components in this
     private void handleAddSensation() {
         if (!validateSensationEntry()) {
             createInvalidInputDialog();
@@ -190,6 +217,7 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         }
     }
 
+    // EFFECTS adds a feeling from corresponding components in this
     private void handleAddFeeling() {
         if (!validateFeelingEntry()) {
             createInvalidInputDialog();
@@ -199,6 +227,8 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         }
     }
 
+    // MODIFIES this
+    // EFFECTS clears the preview of the current entry
     private void handleClearEntry() {
         entry = null;
         previewPanel.remove(entryPanel);
@@ -206,19 +236,25 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         previewPanel.repaint();
     }
 
+    // MODIFIES readingPanel
+    // EFFECTS adds current entry to the journal and renders it on the reading panel
     private void handleAddEntryToJournal() {
         readingPanel.getJournal().addJournalEntry(entry);
         readingPanel.renderJournal(readingPanel.getJournal());
     }
 
+    // EFFECTS returns true if input is valid for creating a new sensation
     private boolean validateSensationEntry() {
         return sensationIntensity.getSelection() != null;
     }
 
+    // EFFECTS returns true if input is valid for creating a new feeling
     private boolean validateFeelingEntry() {
         return feelingIntensity.getSelection() != null;
     }
 
+    // MODIFIES this
+    // EFFECTS adds a sensation to the current entry
     private void addSensationFromInput() {
         Sensation s = new Sensation(bodyPartsBox.getSelectedItem().toString());
         s.setSensationType(sensationTypeList.getSelectedItem().toString());
@@ -229,6 +265,8 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         entry.addSensation(s);
     }
 
+    // MODIFIES this
+    // EFFECTS adds a feeling to the current entry
     private void addFeelingFromInput() {
         Feeling f = new Feeling(feelingName.getText());
         f.setIntensity(Integer.parseInt(feelingIntensity.getSelection().getActionCommand()));
@@ -238,12 +276,15 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         entry.addFeeling(f);
     }
 
+    // EFFECTS displays a dialogue windows for invalid input
     private void createInvalidInputDialog() {
         JOptionPane.showConfirmDialog(previewPanel,
                 "Please, check your input. Only the note can be left blank","Invalid input",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
     }
 
+    // MODIFIES this, readingPanel
+    // EFFECTS renders a preview for a new entry from given inputs of components in this
     private void createEntryFromInput() {
         if (entry == null) {
             entry = new JournalEntry(overallStatesList.getSelectedItem().toString());

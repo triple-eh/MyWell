@@ -39,7 +39,7 @@ public class JsonWriterTest extends JsonTest {
             writer.close();
 
             JsonReader reader = new JsonReader("./data/testWriterEmptyJournal.json");
-            j = reader.read();
+            j = reader.readJournal();
             assertEquals(0, j.size());
         } catch (IOException e) {
             fail("Exception should not have been thrown");
@@ -77,7 +77,7 @@ public class JsonWriterTest extends JsonTest {
             writer.close();
 
             JsonReader reader = new JsonReader("./data/testWriterGeneralJournal.json");
-            j = reader.read();
+            j = reader.readJournal();
             List<JournalEntry> entries = j.getEntries();
             assertEquals(2, entries.size());
             checkJournalEntry(date1, overallState1, sensations1, feelings1, entries.get(0));

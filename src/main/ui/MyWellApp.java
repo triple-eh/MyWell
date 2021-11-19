@@ -205,7 +205,7 @@ public class MyWellApp {
 
     private boolean loadJournal() {
         try {
-            this.journal = jsonReader.read();
+            this.journal = jsonReader.readJournal();
             return true;
         } catch (IOException e) {
             System.out.println("Exception");

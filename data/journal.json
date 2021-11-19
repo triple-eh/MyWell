@@ -28,5 +28,31 @@
             "feelingName": "happy"
         }],
         "overallState": "ok"
+    },
+    {
+        "date": "2021-11-18",
+        "sensations": [{
+            "intensity": 3,
+            "sensationType": "pleasant",
+            "note": "is it pride?",
+            "bodyPart": "chest"
+        }],
+        "feelings": [{
+            "intensity": 3,
+            "note": "almost happy",
+            "feelingName": "almost happy"
+        }],
+        "overallState": "amazing"
+    },
+    {
+        "date": "2021-11-18",
+        "sensations": [{
+            "intensity": 2,
+            "sensationType": "unpleasant",
+            "note": "soreness",
+            "bodyPart": "right shoulder"
+        }],
+        "feelings": [],
+        "overallState": "good"
     }
 ]}

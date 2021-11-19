@@ -5,26 +5,34 @@ import model.Journal;
 import model.JournalEntry;
 import model.Sensation;
 import persistence.JsonReader;
+import persistence.JsonWriter;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.*;
 import java.util.List;
 
 public class ReadingPanel extends JPanel implements ActionListener {
     JButton loadDataButton;
+    JButton saveDataButton;
     JPanel entriesPanel;
+    StatsPanel statsPanel;
     Journal journal;
+    private static final String DEFAULT_STORE_LOCATION = "./data/journal.json";
 
     ReadingPanel() {
         journal = new Journal();
         this.setLayout(new BorderLayout());
         this.add(loadingPanel(), BorderLayout.NORTH);
-        //this.add(entriesPanel(), BorderLayout.CENTER);
+    }
+
+    public void setStatsPanel(StatsPanel panel) {
+        statsPanel = panel;
     }
 
     public Journal getJournal() {
@@ -49,23 +57,80 @@ public class ReadingPanel extends JPanel implements ActionListener {
         JPanel panel = new JPanel();
         loadDataButton = new JButton("Load journal from file");
         loadDataButton.addActionListener(this);
+        saveDataButton = new JButton("Save your journal");
+        saveDataButton.addActionListener(this);
         panel.add(loadDataButton);
+        panel.add(saveDataButton);
         return panel;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loadDataButton) {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(new File("./data"));
-            int response = fileChooser.showOpenDialog(null);
-
-            if (response == JFileChooser.APPROVE_OPTION) {
-                String filePath = new File(fileChooser.getSelectedFile().getAbsolutePath()).toString();
-                this.setJournal(getJournalFromStorage(filePath));
-                renderJournal(this.journal);
-            }
+            handleLoadJournal();
         }
+        if (e.getSource() == saveDataButton) {
+            handleSaveJournal();
+        }
+    }
+
+    private void handleLoadJournal() {
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON Files", "json");
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(filter);
+        fileChooser.setCurrentDirectory(new File("./data"));
+        int response = fileChooser.showOpenDialog(null);
+
+        if (response == JFileChooser.APPROVE_OPTION) {
+            String filePath = new File(fileChooser.getSelectedFile().getAbsolutePath()).toString();
+            this.setJournal(getJournalFromStorage(filePath));
+            renderJournal(this.journal);
+        }
+    }
+
+    private void handleSaveJournal() {
+        if (journal.size() == 0) {
+            displayInformationDialogue(0);
+            return;
+        }
+        JsonWriter jsonWriter = new JsonWriter(DEFAULT_STORE_LOCATION);
+        try {
+            jsonWriter.open();
+            jsonWriter.write(journal);
+            jsonWriter.close();
+            displayInformationDialogue(1);
+        } catch (FileNotFoundException e) {
+            displayInformationDialogue(2);
+        }
+    }
+
+    @SuppressWarnings("methodlength")
+    public void displayInformationDialogue(int option) {
+        int optionsIconReference = JOptionPane.INFORMATION_MESSAGE;
+        String optionsTitle;
+        String optionsText;
+        switch (option) {
+            case 0:
+                optionsTitle = "Warning!";
+                optionsText = "There's nothing in your journal.\nCreate an entry or load from file first.";
+                break;
+            case 1:
+                optionsTitle = "Success!";
+                optionsText = "Saved your journal to " + DEFAULT_STORE_LOCATION;
+                break;
+            case 2:
+                optionsTitle = "Error!";
+                optionsText = "Unable to write to file: " + DEFAULT_STORE_LOCATION;
+                optionsIconReference = JOptionPane.ERROR_MESSAGE;
+                break;
+            default:
+                optionsTitle = "Error!";
+                optionsText = "Something went wrong...";
+                optionsIconReference = JOptionPane.ERROR_MESSAGE;
+        }
+        JOptionPane.showConfirmDialog(this,
+                optionsText,optionsTitle,
+                JOptionPane.DEFAULT_OPTION, optionsIconReference);
     }
 
     public void renderJournal(Journal journal) {
@@ -74,6 +139,7 @@ public class ReadingPanel extends JPanel implements ActionListener {
         }
         this.entriesPanel = entriesPanel(journal);
         this.add(entriesPanel);
+        statsPanel.renderChart();
         validate();
         repaint();
     }
@@ -123,10 +189,10 @@ public class ReadingPanel extends JPanel implements ActionListener {
     }
 
     private Journal getJournalFromStorage(String filePath) {
-        //final String JSON_STORE = "./data/journal.json";
+        //
         try {
             JsonReader jsonReader = new JsonReader(filePath);
-            return jsonReader.read();
+            return jsonReader.readJournal();
         } catch (IOException e) {
             System.out.println("Exception");
             return null;

@@ -118,15 +118,15 @@ public class NewEntryPanel extends JPanel implements ActionListener {
     }
 
     private JComboBox createOverallStatesList() {
-        String[] overallStates = {"excellent","good","ok","bad","terrible"};
+        String[] overallStates = {"amazing","good","ok","bad","terrible"};
         overallStatesList = new JComboBox(overallStates);
         return overallStatesList;
     }
 
     private JComboBox bodyPartList() {
         String[] bodyParts = {"head","face","neck", "right shoulder", "left shoulder", "right arm", "left arm","chest",
-        "upper back", "middle back", "lower back", "stomach", "right hip", "left hip", "right leg", "left leg",
-        "right foot", "left foot"};
+            "upper back", "middle back", "lower back", "stomach", "right hip", "left hip", "right leg", "left leg",
+            "right foot", "left foot"};
         bodyPartsBox = new JComboBox(bodyParts);
         return bodyPartsBox;
     }

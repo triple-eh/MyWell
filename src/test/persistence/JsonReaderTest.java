@@ -22,7 +22,7 @@ public class JsonReaderTest extends JsonTest {
     void testReaderNonExistentFile() {
         JsonReader reader = new JsonReader("./data/noSuchFile.json");
         try {
-            Journal j = reader.read();
+            Journal j = reader.readJournal();
             fail("IOException expected");
         } catch (IOException e) {
             // pass
@@ -33,7 +33,7 @@ public class JsonReaderTest extends JsonTest {
     void testReaderEmptyJournal() {
         JsonReader reader = new JsonReader("./data/testReaderEmptyJournal.json");
         try {
-            Journal j = reader.read();
+            Journal j = reader.readJournal();
             assertEquals(0, j.size());
         } catch (IOException e) {
             fail("Couldn't read from file");
@@ -44,7 +44,7 @@ public class JsonReaderTest extends JsonTest {
     void testReaderGeneralJournal() {
         JsonReader reader = new JsonReader("./data/testReaderGeneralJournal.json");
         try {
-            Journal j = reader.read();
+            Journal j = reader.readJournal();
             List<JournalEntry> entries = j.getEntries();
             assertEquals(2, entries.size());
             LocalDate date1 = LocalDate.parse("2021-10-24");

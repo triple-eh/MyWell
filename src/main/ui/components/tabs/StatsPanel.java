@@ -1,4 +1,4 @@
-package ui;
+package ui.components.tabs;
 
 
 import model.Journal;
@@ -11,8 +11,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.*;
 import java.util.HashMap;
-import java.util.Locale;
-import java.util.Objects;
 
 //A statistics panel displaying information about past entries
 public class StatsPanel extends JPanel {
@@ -20,7 +18,7 @@ public class StatsPanel extends JPanel {
     JPanel defaultPanel;
     JPanel chartPanel;
 
-    StatsPanel(ReadingPanel panel) {
+    public StatsPanel(ReadingPanel panel) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         defaultPanel = new JPanel();
         chartPanel = new JPanel();

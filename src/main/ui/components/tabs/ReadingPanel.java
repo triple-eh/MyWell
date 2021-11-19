@@ -1,4 +1,4 @@
-package ui;
+package ui.components.tabs;
 
 import model.Feeling;
 import model.Journal;
@@ -26,7 +26,7 @@ public class ReadingPanel extends JPanel implements ActionListener {
     Journal journal;
     private static final String DEFAULT_STORE_LOCATION = "./data/journal.json";
 
-    ReadingPanel() {
+    public ReadingPanel() {
         journal = new Journal();
         this.setLayout(new BorderLayout());
         this.add(createControlPanel(), BorderLayout.NORTH);

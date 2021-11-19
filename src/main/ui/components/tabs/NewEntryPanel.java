@@ -1,7 +1,6 @@
-package ui;
+package ui.components.tabs;
 
 import model.Feeling;
-import model.Journal;
 import model.JournalEntry;
 import model.Sensation;
 
@@ -40,7 +39,7 @@ public class NewEntryPanel extends JPanel implements ActionListener {
     JPanel feelingPanel;
     Map<JButton,Runnable> commands = new HashMap<>();
 
-    NewEntryPanel(ReadingPanel readingPanel) {
+    public NewEntryPanel(ReadingPanel readingPanel) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         inputPanel = new JPanel(new GridLayout(0,2));
         inputPanel.add(new JScrollPane(createEntryPanel()));
@@ -49,6 +48,7 @@ public class NewEntryPanel extends JPanel implements ActionListener {
         this.add(inputPanel);
         this.add(createControlPanel());
         this.readingPanel = readingPanel;
+        entry = new JournalEntry(overallStatesList.getSelectedItem().toString());
     }
 
     // MODIFIES: this
@@ -230,7 +230,7 @@ public class NewEntryPanel extends JPanel implements ActionListener {
     // MODIFIES this
     // EFFECTS clears the preview of the current entry
     private void handleClearEntry() {
-        entry = null;
+        entry = new JournalEntry(overallStatesList.getSelectedItem().toString());
         previewPanel.remove(entryPanel);
         previewPanel.validate();
         previewPanel.repaint();

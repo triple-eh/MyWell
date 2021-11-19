@@ -9,7 +9,7 @@ import java.awt.*;
 public class AppFrame extends JFrame {
 
     AppFrame() {
-        ImageIcon logo = new ImageIcon("src/images/logo.png");
+        ImageIcon logo = new ImageIcon("./images/logo.png");
         this.setTitle("MyWell");
         this.setIconImage(logo.getImage());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

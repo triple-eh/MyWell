@@ -29,7 +29,7 @@ public class TabbedPanel extends JPanel {
     // MODIFIES this
     // EFFECTS adds the reading panel JPanel
     private void addReadingPanel(JTabbedPane tabbedPane) {
-        ImageIcon readIcon = new ImageIcon("src/images/read.png");
+        ImageIcon readIcon = new ImageIcon("./images/read.png");
         readingPanel = new ReadingPanel();
         tabbedPane.addTab("Read Entries", readIcon, new JScrollPane(readingPanel),
                 "Read existing entries");
@@ -39,7 +39,7 @@ public class TabbedPanel extends JPanel {
     // MODIFIES this
     // EFFECTS adds the new entry panel JPanel
     private void addNewEntryPanel(JTabbedPane tabbedPane) {
-        ImageIcon writeIcon = new ImageIcon("src/images/write.png");
+        ImageIcon writeIcon = new ImageIcon("./images/write.png");
         newEntryPanel = new NewEntryPanel(readingPanel);
         tabbedPane.addTab("New Entry", writeIcon, newEntryPanel,
                 "Make a new journal entry");
@@ -49,7 +49,7 @@ public class TabbedPanel extends JPanel {
     // MODIFIES this
     // EFFECTS adds the stats panel JPanel
     private void addStatsPanel(JTabbedPane tabbedPane) {
-        ImageIcon statsIcon = new ImageIcon("src/images/stats.png");
+        ImageIcon statsIcon = new ImageIcon("./images/stats.png");
         statsPanel = new StatsPanel(readingPanel);
         tabbedPane.addTab("See stats", statsIcon, statsPanel,
                 "See your journaling stats");

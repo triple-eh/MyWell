@@ -22,6 +22,8 @@ public class Journal {
     //EFFECTS initializes a new journal with no entries
     public Journal() {
         this.entries = new ArrayList<>();
+        EventLog.getInstance().logEvent(
+                new Event("A new journal " + this + " was created and/or loaded" + "\n\n"));
     }
 
     //EFFECTS returns the number of entries in current journal
@@ -33,6 +35,11 @@ public class Journal {
     //EFFECTS adds a new entry to the journal
     public void addJournalEntry(JournalEntry entry) {
         entries.add(entry);
+        EventLog.getInstance().logEvent(
+                new Event("The journal entry " + entry + " as of " + entry.getDate().toString()
+                        + " with overall state \"" + entry.getOverallState() + "\", " + entry.getSensations().size()
+                        + " sensation(s), and " + entry.getFeelings().size() + " feeling(s) was added to/loaded with "
+                        + this + "\n\n"));
     }
 
     //REQUIRES journal has at least one entry
@@ -104,5 +111,10 @@ public class Journal {
             }
         }
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Journal@" + System.identityHashCode(this);
     }
 }

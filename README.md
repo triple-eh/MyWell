@@ -55,3 +55,73 @@ so that I can remember how I felt.
 before I quit, so that I can review them later.
 - As a user, I want the journal to load all my previous entries
 when I start a new session, so that I can review them.
+
+## Phase 4: Task 2
+Mon Nov 22 20:42:23 PST 2021
+A new journal Journal@357863579 was created and/or loaded
+
+
+Mon Nov 22 20:42:23 PST 2021
+A new journal entry JournalEntry@1908143486 as of 2021-11-22 was initiated with an overall state "amazing"
+
+
+Mon Nov 22 20:42:28 PST 2021
+A new journal Journal@1617198022 was created and/or loaded
+
+
+Mon Nov 22 20:42:28 PST 2021
+A new journal entry JournalEntry@380749246 as of 2021-10-25 was initiated with an overall state "amazing"
+
+
+Mon Nov 22 20:42:28 PST 2021
+The journal entry JournalEntry@380749246 as of 2021-10-25 with overall state "amazing", 1 sensation(s), 
+and 1 feeling(s) was added to/loaded with Journal@1617198022
+
+
+Mon Nov 22 20:42:28 PST 2021
+A new journal entry JournalEntry@1636503333 as of 2021-10-25 was initiated with an overall state "ok"
+
+
+Mon Nov 22 20:42:28 PST 2021
+The journal entry JournalEntry@1636503333 as of 2021-10-25 with overall state "ok", 1 sensation(s), 
+and 1 feeling(s) was added to/loaded with Journal@1617198022
+
+
+Mon Nov 22 20:42:28 PST 2021
+A new journal entry JournalEntry@900698444 as of 2021-11-18 was initiated with an overall state "amazing"
+
+
+Mon Nov 22 20:42:28 PST 2021
+The journal entry JournalEntry@900698444 as of 2021-11-18 with overall state "amazing", 1 sensation(s), 
+and 1 feeling(s) was added to/loaded with Journal@1617198022
+
+
+Mon Nov 22 20:42:28 PST 2021
+A new journal entry JournalEntry@2037147579 as of 2021-11-18 was initiated with an overall state "good"
+
+
+Mon Nov 22 20:42:28 PST 2021
+The journal entry JournalEntry@2037147579 as of 2021-11-18 with overall state "good", 1 sensation(s), 
+and 0 feeling(s) was added to/loaded with Journal@1617198022
+
+
+Mon Nov 22 20:43:02 PST 2021
+A new sensation in head added to JournalEntry@1908143486
+
+
+Mon Nov 22 20:43:08 PST 2021
+A new journal entry JournalEntry@1374893919 as of 2021-11-22 was initiated with an overall state "ok"
+
+
+Mon Nov 22 20:43:36 PST 2021
+A new sensation in head added to JournalEntry@1374893919
+
+
+Mon Nov 22 20:43:39 PST 2021
+A new feeling: satisfied added to JournalEntry@1374893919
+
+
+Mon Nov 22 20:43:42 PST 2021
+The journal entry JournalEntry@1374893919 as of 2021-11-22 with overall state "good", 1 sensation(s), 
+and 1 feeling(s) was added to/loaded with Journal@1617198022
+

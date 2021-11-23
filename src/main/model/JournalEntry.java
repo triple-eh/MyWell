@@ -21,6 +21,9 @@ public class JournalEntry {
         this.overallState = overallState;
         this.sensations = sensations;
         this.feelings = feelings;
+        EventLog.getInstance().logEvent(
+                new Event("A new journal entry " + this + " as of " + this.date.toString()
+                        + " was initiated with an overall state \"" + overallState + "\"\n\n"));
     }
 
     //REQUIRES a valid date not greater than today's date and overallState be one of STATES
@@ -66,6 +69,9 @@ public class JournalEntry {
     public boolean addSensation(Sensation sensation) {
         if (!sensationWithBodyPartAlreadyPresent(sensation.getBodyPart())) {
             sensations.add(sensation);
+            EventLog.getInstance().logEvent(
+                    new Event("A new sensation in "
+                            + sensation.getBodyPart() + " added to " + this + "\n\n"));
             return true;
         }
         return false;
@@ -90,6 +96,9 @@ public class JournalEntry {
     public boolean addFeeling(Feeling feeling) {
         if (!feelingAlreadyPresent(feeling.getFeelingName())) {
             feelings.add(feeling);
+            EventLog.getInstance().logEvent(
+                    new Event("A new feeling: " + feeling.getFeelingName()
+                            + " added to " + this + "\n\n"));
             return true;
         }
         return false;
@@ -109,4 +118,8 @@ public class JournalEntry {
         return feelingAlreadyPresent;
     }
 
+    @Override
+    public String toString() {
+        return "JournalEntry@" + System.identityHashCode(this);
+    }
 }

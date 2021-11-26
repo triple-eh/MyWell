@@ -125,3 +125,22 @@ Mon Nov 22 20:43:42 PST 2021
 The journal entry JournalEntry@1374893919 as of 2021-11-22 with overall state "good", 1 sensation(s), 
 and 1 feeling(s) was added to/loaded with Journal@1617198022
 
+## Phase 4: Task 3
+- There is a "messy" bi-directional association between StatsPanel and
+  ReadingPanel. The multiplicity should be the same on both sides, but the current implementation makes it
+  challenging to do so because StatsPanel is initialized with the ReadingPanel passed as an argument, 
+  while the ReadingPanel can't do that since it is created before the StatsPanel and so it gets to know about 
+  the StatsPanel via a setter call from TabbedPanel. 
+- To eliminate the issue above, I would refactor each of NewEntryPanel, ReadingPanel,
+  and StatsPanel such that they are initialized first without being "aware" of others, and then let the TabbedPanel set
+  the required panels through separate calls. That would mean that where an association between the three
+  classes exist, the multiplicity would change to "0...1" from the current "1".
+- More generally, there is high coupling between NewEntryPanel, ReadingPanel, and StatsPanel classes. It can be 
+  reduced by having a bi-directional association between these classes and TabbedPanel (with multiplicity of 1 
+  in each direction). That way, each of the three classes can access the other two through the TabbedPanel class.
+- ReadingPanel is currently the only class that is directly associated with the Journal class. This doesn't make
+  sense given that the entire app is a journaling app and as such the operations of each tab require access to Journal.
+  The way other tabs currently know about Journal is through their association with the ReadingPanel. A better way would
+  be to have an association from TabbedPanel to Journal. Then Journal can be accessed through TabbedPanel by the "child"
+  tabs. Alternatively, a Journal field can be added to each of StatsPanel, ReadingPanel, NewEntryPanel and be set by
+  TabbedPanel, which would create additional associations but that should be fine.
